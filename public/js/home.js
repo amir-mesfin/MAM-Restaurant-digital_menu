@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!heroCarousel) return;
 
   const carousel = new bootstrap.Carousel(heroCarousel, {
-    interval: 6000,
+    interval: 10000,
     ride: 'carousel',
     pause: false,
     wrap: true,
