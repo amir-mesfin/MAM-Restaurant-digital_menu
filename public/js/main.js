@@ -99,7 +99,7 @@
   /**
    * Initiate glightbox
    */
-  const glightbox = GLightbox({
+  const lightbox = GLightbox({
     selector: '.glightbox'
   });
 
