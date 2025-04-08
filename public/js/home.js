@@ -1,5 +1,9 @@
 
 document.addEventListener('DOMContentLoaded', () => {
+  const lightbox = GLightbox({
+    selector: '.glightbox'
+  });
+  
   const heroCarousel = document.querySelector('#hero-carousel');
   if (!heroCarousel) return;
 
