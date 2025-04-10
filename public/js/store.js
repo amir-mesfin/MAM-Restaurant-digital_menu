@@ -1,4 +1,4 @@
-const galarryImage = [
+export const galleryImage = [
   {src:'image/g1.jpg',
     alt:"gallery"
   },
