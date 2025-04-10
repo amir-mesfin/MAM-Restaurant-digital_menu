@@ -1,6 +1,18 @@
-
+import { galleryImage } from './store.js';
 document.addEventListener('DOMContentLoaded', () => {
-  //
+
+  const galleryContainer = document.querySelector('.galleryContainer');
+  galleryImage.forEach(image => {
+    galleryContainer.innerHTML +=`
+           <div class="col-lg-3 col-md-4">
+        <div class="gallery-item">
+          <a href="${image.src}" class="glightbox" data-gallery="images-gallery">
+            <img src="${image.src}" alt="${image.alt}" class="img-fluid">
+          </a>
+        </div>
+      </div>
+    `;
+  });
   const lightbox = GLightbox({
     selector: '.glightbox'
   });
