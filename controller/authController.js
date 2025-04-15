@@ -21,10 +21,10 @@ exports.registerUser =  (req, res) => {
   });
 };
 
-// exports.loginUser = passport.authenticate('local', {
-//   successRedirect: '/',
-//   failureRedirect: '/login'
-// });
+exports.loginUser = passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/login'
+});
 
 // exports.logoutUser = (req, res) => {
 //   req.logout(err => {
