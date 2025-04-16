@@ -14,6 +14,7 @@ const app =  express();
 app.set('view engine','ejs');
 app.use(express.static("public"));
 app.use(express.urlencoded({extended:true}));
+app.use(express.json());
 
 // session set uo
 app.use(session({
@@ -33,17 +34,10 @@ app.use(session({
 const RestaurantSchema = new mongoose.Schema({
       name: {
           type: String,
-          required: true
       },
       email: {
           type: String,
-          required: true,
-          unique: true
       },
-      password: {
-          type: String,
-          required: true
-      }
   });
 
 
@@ -101,9 +95,11 @@ app.get("/menu", (req,res)=>{
 
 app.post("/register",(req,res)=>{
   const { username, userEmail, password} = req.body;
-  console.log( username, userEmail, password);
-  
-  User.register({username, userEmail},password,(err,user)=>{
+  console.log("Body content:", req.body);
+
+  const newUser = new RestaurantUser({ username, userEmail });
+
+  RestaurantUser.register(newUser,password,(err,user)=>{
     if(err){
       console.log(err);
       res.redirect("/register");
