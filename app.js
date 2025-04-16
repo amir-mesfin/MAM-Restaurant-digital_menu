@@ -35,7 +35,7 @@ const RestaurantSchema = new mongoose.Schema({
       name: {
           type: String,
       },
-      email: {
+      username: {
           type: String,
       },
   });
@@ -88,7 +88,12 @@ app.get("/login",(req,res)=>{
 
 // menu 
 app.get("/menu", (req,res)=>{
+
+  if((!req.isAuthenticated())){
+     return res.redirect("/login")
+  } else
   res.render("menu");
+
 })
 
 // post method for register
@@ -106,10 +111,18 @@ app.post("/register",(req,res)=>{
     }else{
       passport.authenticate("local")(req, res, ()=>{
         res.redirect("/menu")
-      });
+      });  
     }
   });
 });
+
+app.post("/login", passport.authenticate("local", {
+  successRedirect: "/menu",
+  failureRedirect: "/login",
+  failureFlash: true // optional, if you're using flash messages
+}));
+
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT,()=>{
