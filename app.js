@@ -4,9 +4,10 @@ const ejs = require('ejs');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
+const passportLocalMongoose = require('passport-local-mongoose');
 
-const mainRoutes = require('./routes/main');
-const authRoutes = require('./routes/authRouters');
+// const mainRoutes = require('./routes/main');
+// const authRoutes = require('./routes/authRouters');
 
 
 const app =  express();
@@ -21,17 +22,98 @@ app.use(session({
     saveUninitialized: false
   }));
 
-// passport initialization
+// // passport initialization
   app.use(passport.initialize());
   app.use(passport.session());
 
+ // connect mongoose db
   mongoose.connect("mongodb://localhost:27017/RestaurantDB");
 
+  //user restaurant schema
+const RestaurantSchema = new mongoose.Schema({
+      name: {
+          type: String,
+          required: true
+      },
+      email: {
+          type: String,
+          required: true,
+          unique: true
+      },
+      password: {
+          type: String,
+          required: true
+      }
+  });
 
-// Use main routes
-app.use('/', mainRoutes);
-app.use('/', authRoutes);
 
+  // Plug in passport-local-mongoose
+  RestaurantSchema.plugin(passportLocalMongoose);
+
+  // create model
+  const RestaurantUser= mongoose.model("RestaurantUser", RestaurantSchema);
+
+  passport.use(RestaurantUser.createStrategy());
+// // Use main routes
+// app.use('/', mainRoutes);
+// app.use('/', authRoutes);
+
+
+
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+// Deserialize User
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await RestaurantUser.findById(id); // Retrieve full user details from DB
+    done(null, user); // Pass 'null' as the first argument when there's no error
+  } catch (err) {
+    done(err); 
+  }
+});
+
+app.get('/', (req, res) => {
+    res.render('home');
+})
+
+app.get("/register",(req,res)=>{
+  res.render("register",{
+
+  });
+});
+
+
+app.get("/login",(req,res)=>{
+  res.render("login",{
+
+  });
+});
+
+// menu 
+app.get("/menu", (req,res)=>{
+  res.render("menu");
+})
+
+// post method for register
+
+app.post("/register",(req,res)=>{
+  const { username, userEmail, password} = req.body;
+  console.log( username, userEmail, password);
+  
+  User.register({username, userEmail},password,(err,user)=>{
+    if(err){
+      console.log(err);
+      res.redirect("/register");
+    }else{
+      passport.authenticate("local")(req, res, ()=>{
+        res.redirect("/menu")
+      });
+    }
+  });
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT,()=>{
