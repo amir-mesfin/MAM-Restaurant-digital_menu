@@ -99,10 +99,10 @@ app.get("/menu", (req,res)=>{
 // post method for register
 
 app.post("/register",(req,res)=>{
-  const { username, userEmail, password} = req.body;
-  console.log("Body content:", req.body);
+  const { fullName, username, password} = req.body;
+  // console.log("Body content:", req.body);
 
-  const newUser = new RestaurantUser({ username, userEmail });
+  const newUser = new RestaurantUser({ name:fullName, username:username });
 
   RestaurantUser.register(newUser,password,(err,user)=>{
     if(err){
@@ -116,13 +116,24 @@ app.post("/register",(req,res)=>{
   });
 });
 
-app.post("/login", passport.authenticate("local", {
-  successRedirect: "/menu",
-  failureRedirect: "/login",
-  failureFlash: true // optional, if you're using flash messages
-}));
+app.post("/login",(req,res)=>{
+  const {username,password} = req.body;
 
-
+  const loginUser = new RestaurantUser({
+    username:username,
+    password:password
+  });
+  req.login(loginUser,(err)=>{
+  if(err){
+    console.log(err);
+    res.redirect("/login")
+  }else{
+    passport.authenticate("local")(req, res, ()=>{
+      res.redirect("/menu")
+    });
+  }
+  })
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT,()=>{
