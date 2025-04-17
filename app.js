@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
 const passportLocalMongoose = require('passport-local-mongoose');
+const findOrCreate = require('mongoose-findorcreate')
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 // const mainRoutes = require('./routes/main');
 // const authRoutes = require('./routes/authRouters');
@@ -43,6 +45,8 @@ const RestaurantSchema = new mongoose.Schema({
 
   // Plug in passport-local-mongoose
   RestaurantSchema.plugin(passportLocalMongoose);
+  // Plug in findOrCreate
+  RestaurantSchema.plugin(findOrCreate);
 
   // create model
   const RestaurantUser= mongoose.model("RestaurantUser", RestaurantSchema);
@@ -68,22 +72,44 @@ passport.deserializeUser(async (id, done) => {
     done(err); 
   }
 });
+  console.log(process.env.GOOGLE_CLIENT_ID);
+  console.log(process.env.GOOGLE_CLIENT_SECRET);
+// google  Configure Strategy
+passport.use(new GoogleStrategy({
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: "http://localhost:2378/auth/google/menu"
+},
+function(accessToken, refreshToken, profile, cb) {
+  RestaurantUser.findOrCreate({
+     googleId: profile.id }, function (err, user) {
+    return cb(err, user);
+  });
+}
+));
+
+// Authenticate Requests FOR GOOGLE
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['profile'] }));
+ 
+app.get('/auth/google/menu', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/menu');
+  });
 
 app.get('/', (req, res) => {
     res.render('home');
 })
 
 app.get("/register",(req,res)=>{
-  res.render("register",{
-
-  });
+  res.render("register");
 });
 
 
 app.get("/login",(req,res)=>{
-  res.render("login",{
-
-  });
+  res.render("login");
 });
 
 // menu 
@@ -115,6 +141,20 @@ app.post("/register",(req,res)=>{
     }
   });
 });
+
+// Authenticate Requests google
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['profile'] }));
+
+  
+app.get('/auth/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/menu');
+  });
+
+
 
 app.post("/login",(req,res)=>{
   const {username,password} = req.body;
