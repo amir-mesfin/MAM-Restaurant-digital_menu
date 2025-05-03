@@ -1,181 +1,35 @@
+// app.js
 const express = require('express');
-const dotenv = require('dotenv').config();
-const ejs = require('ejs');
-const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
-const passportLocalMongoose = require('passport-local-mongoose');
-const findOrCreate = require('mongoose-findorcreate')
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const mongoose = require('mongoose');
+const dotenv = require('dotenv').config();
 
-// const mainRoutes = require('./routes/main');
-// const authRoutes = require('./routes/authRouters');
+const authRoutes = require('./routes/authRoutes');
+require('./config/passport'); // All passport setup
 
-
-const app =  express();
-app.set('view engine','ejs');
-app.use(express.static("public"));
-app.use(express.urlencoded({extended:true}));
+const app = express();
+app.set('view engine', 'ejs');
+app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// session set uo
+// MongoDB Connection
+mongoose.connect('mongodb://localhost:27017/RestaurantDB');
+
+// Session Middleware
 app.use(session({
-    secret: 'yourSecretKey',
-    resave: false,
-    saveUninitialized: false
-  }));
+  secret: 'yourSecretKey',
+  resave: false,
+  saveUninitialized: false
+}));
 
-// // passport initialization
-  app.use(passport.initialize());
-  app.use(passport.session());
+// Passport Initialization
+app.use(passport.initialize());
+app.use(passport.session());
 
- // connect mongoose db
-  mongoose.connect("mongodb://localhost:27017/RestaurantDB");
-
-  //user restaurant schema
-const RestaurantSchema = new mongoose.Schema({
-      name: {
-          type: String,
-      },
-      username: {
-          type: String,
-      },
-  });
-
-
-  // Plug in passport-local-mongoose
-  RestaurantSchema.plugin(passportLocalMongoose);
-  // Plug in findOrCreate
-  RestaurantSchema.plugin(findOrCreate);
-
-  // create model
-  const RestaurantUser= mongoose.model("RestaurantUser", RestaurantSchema);
-
-  passport.use(RestaurantUser.createStrategy());
-// // Use main routes
-// app.use('/', mainRoutes);
-// app.use('/', authRoutes);
-
-
-
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-// Deserialize User
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await RestaurantUser.findById(id); // Retrieve full user details from DB
-    done(null, user); // Pass 'null' as the first argument when there's no error
-  } catch (err) {
-    done(err); 
-  }
-});
-  console.log(process.env.GOOGLE_CLIENT_ID);
-  console.log(process.env.GOOGLE_CLIENT_SECRET);
-// google  Configure Strategy
-passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "http://localhost:2378/auth/google/menu"
-},
-function(accessToken, refreshToken, profile, cb) {
-  RestaurantUser.findOrCreate({
-     googleId: profile.id }, function (err, user) {
-    return cb(err, user);
-  });
-}
-));
-
-// Authenticate Requests FOR GOOGLE
-app.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile'] }));
- 
-app.get('/auth/google/menu', 
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/menu');
-  });
-
-app.get('/', (req, res) => {
-    res.render('home');
-})
-
-app.get("/register",(req,res)=>{
-  res.render("register");
-});
-
-
-app.get("/login",(req,res)=>{
-  res.render("login");
-});
-
-// menu 
-app.get("/menu", (req,res)=>{
-
-  if((!req.isAuthenticated())){
-     return res.redirect("/login")
-  } else
-  res.render("menu");
-
-})
-
-// post method for register
-
-app.post("/register",(req,res)=>{
-  const { fullName, username, password} = req.body;
-  // console.log("Body content:", req.body);
-
-  const newUser = new RestaurantUser({ name:fullName, username:username });
-
-  RestaurantUser.register(newUser,password,(err,user)=>{
-    if(err){
-      console.log(err);
-      res.redirect("/register");
-    }else{
-      passport.authenticate("local")(req, res, ()=>{
-        res.redirect("/menu")
-      });  
-    }
-  });
-});
-
-// Authenticate Requests google
-app.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile'] }));
-
-  
-app.get('/auth/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/menu');
-  });
-
-
-
-app.post("/login",(req,res)=>{
-  const {username,password} = req.body;
-
-  const loginUser = new RestaurantUser({
-    username:username,
-    password:password
-  });
-  req.login(loginUser,(err)=>{
-  if(err){
-    console.log(err);
-    res.redirect("/login")
-  }else{
-    passport.authenticate("local")(req, res, ()=>{
-      res.redirect("/menu")
-    });
-  }
-  })
-});
+// Routes
+app.use('/', authRoutes);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT,()=>{
-    console.log(`server is running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
