@@ -1,6 +1,5 @@
 import React from 'react'
 import logo from '../../public/image/mamLogo.png'
-
 export default function Header() {
   return (
     <div className="flex items-center gap-3 justify-center bg-[#784115] p-4 shadow-md">

@@ -6,36 +6,42 @@ import crousel5 from '../assets/crousel/crousel5.webp';
 import crousel6 from '../assets/crousel/crousel6.jpg';
 import crousel7 from '../assets/crousel/crousel7.webp';
 
+import home from '../assets/homepage.png';
+import fish from '../assets/fish.png';
+import snack from '../assets/food.png';
+import breakfast from '../assets/english-breakfast.png';
+import lunch from '../assets/food.png';
+import pizza from '../assets/piza.png';
+import softDrink from '../assets/avocado-juice.png';
+import hotDrink from '../assets/hot-cocoa.png';
+import pastries from '../assets/sweet.png';
+import burger from '../assets/fast-food.png';
+import freshDrink from '../assets/avocado-juice.png';
+import wrap from '../assets/wrapping-paper.png'; // create a wrap icon if needed
 
-const  data =  [
-  {
-    image:crousel1,
-    text:"ማም ሬስቶራንት፡ ኢትዮጵያዊው ጣዕም በዘመናዊ መልኩ!",
-  },
-  {
-    image:crousel2,
-    text:"በማም ሬስቶራንት ውስጥ ያለው ምግብ ለሰውነት ምግብ ብቻ ሳይሆን ለነፍስ ምቾትም ነው",
-  },
-  {
-    image:crousel3,
-    text:"ከእኛ ጋር የምትበሉት ምግብ የተፈጥሮ ጤና እና የባህል ጥራት ተጣምሮ የተሰራ ነው!",
-  },
-  {
-    image:crousel4,
-    text:"ከዶሮ ወጥ እስከ ትኩሳ እንጀራ - የኢትዮጵያ ልዩ ጣዕሞች በሙሉ!",
-  },
-  {
-    image:crousel5,
-    text:"ለተለየ የምግብ ተሞክሮ ዛሬ ማም ሬስቶራንት ይጎብኙ",
-  },
-  {
-    image:crousel6,
-    text:"እያንዳንዱ ጣዕም የተለየ ታሪክ ይነግራል - የእኛ ታሪክ ለእርስዎ ደስታ ይሆናል",
-  },
-  {
-    image:crousel7,
-    text:"በቤተሰብ ፍቅር የተሞላ ምግብ ቤት",
-  },
-]
+// Carousel data
+export const carouselData = [
+  { image: crousel1, text: "ማም ሬስቶራንት፡ ኢትዮጵያዊው ጣዕም በዘመናዊ መልኩ!" },
+  { image: crousel2, text: "በማም ሬስቶራንት ውስጥ ያለው ምግብ ለሰውነት ምግብ ብቻ ሳይሆን ለነፍስ ምቾትም ነው" },
+  { image: crousel3, text: "ከእኛ ጋር የምትበሉት ምግብ የተፈጥሮ ጤና እና የባህል ጥራት ተጣምሮ የተሰራ ነው!" },
+  { image: crousel4, text: "ከዶሮ ወጥ እስከ ትኩሳ እንጀራ - የኢትዮጵያ ልዩ ጣዕሞች በሙሉ!" },
+  { image: crousel5, text: "ለተለየ የምግብ ተሞክሮ ዛሬ ማም ሬስቶራንት ይጎብኙ" },
+  { image: crousel6, text: "እያንዳንዱ ጣዕም የተለየ ታሪክ ይነግራል - የእኛ ታሪክ ለእርስዎ ደስታ ይሆናል" },
+  { image: crousel7, text: "በቤተሰብ ፍቅር የተሞላ ምግብ ቤት" }
+];
 
-export default data ;
+// Header/menu categories
+export const headerData = [
+  { content: "ዋና ገፅ", icon: home },
+  { content: "በርገር", icon: burger },
+  { content: "ፒዛ", icon: pizza },
+  { content: "አሳ", icon: fish },
+  { content: "ቁርስ", icon: breakfast },
+  { content: "ምሳ", icon: lunch },
+  { content: "ፍረሽ ጁስ", icon: freshDrink },
+  { content: "ለስላሳ መጠጦች", icon: softDrink },
+  { content: "ትኩስ መጠጦች", icon: hotDrink },
+  { content: "Pastries", icon: pastries },
+  { content: "ራፕ", icon: wrap },
+  { content: "መቅሰስ", icon: snack }
+];
