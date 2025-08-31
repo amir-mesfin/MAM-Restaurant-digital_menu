@@ -3,6 +3,7 @@ import Home from './page/Home'
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Header from './components/Header'
 import Carousels from './components/Carousels'
+import Catagory from './components/Catagory'
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
     <Carousels />
       <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/catagory/:catagoryName" element={ <Catagory />} />
       </Routes>
              
    {/* <Footer /> */}
