@@ -7,8 +7,8 @@ export default function HeaderBelow() {
       {headerData.map((item, index) => (
         <div
           key={index}
-          className="min-w-[100px] flex gap-3 items-center 
-                     hover:py-2 hover:px-4 hover:bg-gray-500 
+          className="min-w-[100px] flex gap-2 items-center 
+                     py-2 px-4 hover:bg-gray-500 
                      hover:rounded-2xl hover:underline-offset-1 transition"
         >
           <img className="w-10 h-10" src={item.icon} alt={item.content} />
