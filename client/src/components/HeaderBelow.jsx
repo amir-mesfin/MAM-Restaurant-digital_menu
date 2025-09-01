@@ -76,7 +76,7 @@ export default function HeaderBelow() {
                 to={`catagory/${item.content}`}
                 onClick={() => setOpen(false)} 
                 className="flex items-center gap-3 p-3 rounded-lg transition 
-                           hover:bg-yellow-600 hover:underline hover:underline-offset-4"
+                           hover:bg-yellow-600 border-b-2 hover:underline-offset-4"
               >
                 <img
                   src={item.icon}
@@ -93,7 +93,7 @@ export default function HeaderBelow() {
       {/* Overlay when Sidebar Open */}
       {open && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-40 z-40"
+          className="fixed inset-0  bg-opacity-40 z-40"
           onClick={() => setOpen(false)}
         />
       )}

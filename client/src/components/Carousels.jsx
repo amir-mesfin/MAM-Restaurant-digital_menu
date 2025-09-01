@@ -20,7 +20,7 @@ export default function Carousels() {
           showThumbs={false}
           showIndicators={false}
           showStatus={false}
-          interval={6000}
+          interval={4000}
           className="rounded-2xl"
         >
           {carouselData.map((item, index) => (
