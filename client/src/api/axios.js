@@ -3,7 +3,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5175/api', 
+  baseURL: 'http://localhost:1361/api', 
   headers: {
     'Content-Type': 'application/json',
   },

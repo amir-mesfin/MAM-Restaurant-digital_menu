@@ -2,22 +2,38 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import  connectDB from './config/db.js';
+import auth from './router/auth.routes.js'
+dotenv.config();
+const  app = express();
 
- const  app = express();
- app.use(express.cors({
-   origin: "http://localhost:3000",
+
+app.use(express.json());
+ app.use(cors({
+   origin: "http://localhost:5173",
    methods: ["GET", "POST", "PUT", "DELETE"],
    Credential:true
- }))
-dotenv.config();
+ }));
+
+ app.use('/api/auth', auth)
+
 
 
 connectDB()
   .then(() => {
-    app.listen(PORT, () => {
-      console.log("Server is running on port", PORT);
+    app.listen(port, () => {
+      console.log("Server is running on port", port);
     });
   })
 const port = process.env.PORT || 8000 ;
 
+
+app.use((err, req, res, next)=>{
+  const statusCode = err.statusCode || 500;
+  const message = err.message || 'Internal server Error';
+  return res.status(statusCode).json({
+    message,
+    success: false,
+    statusCode
+  });
+});
 
