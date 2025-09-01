@@ -6,12 +6,13 @@ import Carousels from "./components/Carousels";
 import Catagory from "./components/Catagory";
 import Footer from "./components/Footer";
 import Sign from "./page/Sign";
+import Owner from "./page/Owner";
 
 function Layout({ children }) {
   const location = useLocation();
 
   // Check if we are in the sign page
-  const isSignPage = location.pathname === "/sign";
+  const isSignPage = location.pathname === "/sign" || location.pathname === "/owner";
 
   return (
     <>
@@ -34,6 +35,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/catagory/:catagoryName" element={<Catagory />} />
           <Route path="/sign" element={<Sign />} />
+          <Route path="/owner" element={<Owner />} />
         </Routes>
       </Layout>
     </BrowserRouter>

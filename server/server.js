@@ -24,7 +24,7 @@ connectDB()
       console.log("Server is running on port", port);
     });
   })
-const port = process.env.PORT || 8000 ;
+const port = process.env.PORT
 
 
 app.use((err, req, res, next)=>{

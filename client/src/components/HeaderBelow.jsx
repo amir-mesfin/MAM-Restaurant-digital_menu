@@ -25,24 +25,32 @@ export default function HeaderBelow() {
     
 
       {/* Desktop Menu */}
-      <div className="hidden md:flex gap-10 flex-wrap justify-around items-center bg-[#cf9d3f] p-5">
-        {headerData.map((item, index) => (
-          <Link key={index} to={`catagory/${item.content}`}>
-            <div
-              className={`min-w-[100px] flex gap-2 items-center 
-                          py-2 px-4 rounded-md cursor-pointer transition 
-                          hover:bg-[#8b651b] hover:border-b-4  hover:border-white hover:underline-offset-4`}
-            >
-              <img
-                className="w-8 h-8 object-contain"
-                src={item.icon}
-                alt={item.content}
-              />
-              <span className="text-white font-semibold">{item.content}</span>
-            </div>
-          </Link>
-        ))}
+      <div className="hidden md:flex gap-10 flex-wrap justify-around items-center bg-[#cf9d3f] p-5 rounded-lg">
+  {headerData.map((item, index) => (
+    <Link key={index} to={`catagory/${item.content}`}>
+      <div
+        className="min-w-[100px] flex gap-2 items-center py-2 px-4 rounded-md cursor-pointer 
+                   transition-all duration-500 hover:bg-[#8b651b] hover:border-b-4 relative group"
+      >
+        {/* Icon with subtle rotation */}
+        <img
+          className="w-8 h-8 object-contain transition-transform duration-500 group-hover:rotate-360"
+          src={item.icon}
+          alt={item.content}
+        />
+        <span className="text-white font-semibold transition-colors duration-300 group-hover:text-yellow-200">
+          {item.content}
+        </span>
+
+        {/* Animated underline effect */}
+        <span className="absolute bottom-0 left-1/2 w-0 h-1 bg-white rounded-full transition-all 
+                         duration-500 group-hover:w-8 -translate-x-1/2"></span>
       </div>
+    </Link>
+  ))}
+</div>
+
+
 
       {/* Mobile Sidebar Drawer */}
       <div

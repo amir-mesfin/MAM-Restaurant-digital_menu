@@ -18,7 +18,7 @@ export default function Sign() {
     try{
          const res = await api.post('/auth/signin',formData);
          const da =  res.data;
-         navigate('/')
+         navigate('/owner')
     }catch(err){
         setError(err);
     }
