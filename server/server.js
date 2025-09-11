@@ -3,6 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import  connectDB from './config/db.js';
 import auth from './router/auth.routes.js'
+import category from './router/category.routes.js'
+
 dotenv.config();
 const  app = express();
 
@@ -14,7 +16,8 @@ app.use(express.json());
    Credential:true
  }));
 
- app.use('/api/auth', auth)
+ app.use('/api/auth', auth);
+ app.use('/api/category', category);
 
 
 
