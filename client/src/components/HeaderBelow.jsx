@@ -30,7 +30,7 @@ export default function HeaderBelow() {
     <Link key={index} to={`catagory/${item.content}`}>
       <div
         className="min-w-[100px] flex gap-2 items-center py-2 px-4 rounded-md cursor-pointer 
-                   transition-all duration-500 hover:bg-[#8b651b] hover:border-b-4 relative group"
+                   transition-all duration-500 hover:bg-[#8b651b]  relative group"
       >
         {/* Icon with subtle rotation */}
         <img
@@ -44,7 +44,7 @@ export default function HeaderBelow() {
 
         {/* Animated underline effect */}
         <span className="absolute bottom-0 left-1/2 w-0 h-1 bg-white rounded-full transition-all 
-                         duration-500 group-hover:w-8 -translate-x-1/2"></span>
+                         duration-500 group-hover:w-17 -translate-x-1/2"></span>
       </div>
     </Link>
   ))}
