@@ -1,11 +1,15 @@
 import React, {useState, useEffect}from 'react'
-
+import api from '../api/axios';
 export default function CategoryPage() {
+
   const [dataForm, setDataForm] = useState({CatagoryName:'',
                                             url:'',
   });
   const [img, setImg] = useState(null);
   const [imageError, SetImageError] = useState(null);
+  const [error, setError] = useState();
+
+
   const handleChange = (e) =>{
      setDataForm( {
        ...dataForm,
@@ -57,6 +61,20 @@ export default function CategoryPage() {
          
 
   }
+  const handleSubmit = async (e) => {
+    e.preventDefault(); 
+    try {
+      const res = await api.post('/category/addCategory', dataForm); 
+      const data = res.data; // ✅ axios gives data here directly
+      console.log("Response:", data);
+    } catch (err) {
+      console.error("Error:", err);
+      setError(err.response.data.message);
+    }
+  };
+  
+
+
 
   // console.log(dataForm);
   // console.log(imageError);
@@ -69,7 +87,7 @@ export default function CategoryPage() {
 
       </div>
       <div className=''>
-        <form action="" className='flex flex-col  space-y-3 '>
+        <form onSubmit={handleSubmit} className='flex flex-col  space-y-3 '>
           <div className='flex flex-col  max-w-[450px] '>
             <label className='mb-2 font-semibold  italic'> add food catagory name  </label>
             <input type="text" className='bg-white border-0  p-3   focus:outline-amber-300 rounded-lg  ml-5 mr-4' placeholder='add new catagory'
