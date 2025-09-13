@@ -18,3 +18,16 @@ export const addCatagory = async (req,res,next)=>{
     next(err);
    }
 }
+
+export const showCatagory = async(req, res, next) => {
+       try{
+         const allCategory = await catagory.find();
+         if(!allCategory){
+          return next(errorHandler(404,'there is one category'));
+         }
+         res.status(200).json(allCategory);
+         console.log(allCategory);
+       }catch(err){
+           next(err);
+       }
+}
