@@ -1,33 +1,65 @@
 import { errorHandler } from "../utils/error.js"
-// import mongoose from "mongoose"
 import catagory from "../model/catagory.model.js"
 
+// ምድብ መጨመር
 export const addCatagory = async (req,res,next)=>{
   const {catagoryName, url} = req.body;
    try{
       const check =  await catagory.findOne({catagoryName}).lean();
       if(check){
-        return next(errorHandler(409,`${catagoryName} already exist`));
+        return next(errorHandler(409,`'${catagoryName}' አስቀድሞ አለ`));
       }
      const newCategory = new catagory({catagoryName, url});
-      newCategory.save();
+      await newCategory.save();
 
-      res.status(200).json('Category added successfully');
-
+      res.status(200).json('ምድቡ በትክክል ታክሏል');
    }catch(err){
     next(err);
    }
 }
 
+// ምድቦችን ማሳየት
 export const showCatagory = async(req, res, next) => {
        try{
          const allCategory = await catagory.find();
-         if(!allCategory){
-          return next(errorHandler(404,'there is one category'));
+         if(!allCategory || allCategory.length === 0){
+          return next(errorHandler(404,'ምንም ምድብ አልተገኘም'));
          }
          res.status(200).json(allCategory);
-         console.log(allCategory);
        }catch(err){
            next(err);
        }
+}
+
+// ምድብ ማሻሻል
+export const updateCategory = async(req, res , next)=>{
+    const { categoryID } = req.params;  
+    const { catagoryName, url } = req.body; 
+  
+    try {
+      const updated = await catagory.findByIdAndUpdate(
+        categoryID,
+        { catagoryName, url },
+        { new: true }
+      );
+      if (!updated) return res.status(404).json({ message: "ምድቡ አልተገኘም" });
+  
+      res.json({ message: "ምድቡ በትክክል ተሻሽሏል", updated });
+  }catch(err){
+    next(err);
+  }
+} 
+
+// ምድብ ማጥፋት
+export  const deleteCategory = async (req, res, next)=>{
+  const { categoryID } = req.params;  
+
+  try {
+    const deleted = await catagory.findByIdAndDelete(categoryID);
+    if (!deleted) return res.status(404).json({ message: "ምድቡ አልተገኘም" });
+
+    res.json({ message: "ምድቡ በትክክል ተሰርዟል" });
+  } catch (err) {
+    res.status(500).json({ message: "የሰርቨር ችግር ተከስቷል", error: err.message });
+  }
 }
