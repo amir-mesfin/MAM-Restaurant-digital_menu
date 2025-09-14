@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import CategoryPage from './CategoryPage';
+import AddFood from './AddFood';
 export default function Owner() {
   const [activePage, setActivePage] = useState('edit')
 
@@ -43,7 +44,7 @@ export default function Owner() {
       {/* Main Content */}
       <div className="flex-1 w-full bg-slate-200 rounded-xl shadow-sm p-4 overflow-y-auto h-[80vh] md:h-[80vh]">
         {activePage === "edit" && 'food edit'}
-        {activePage === "addFood" && '<CategoryPage />'}
+        {activePage === "addFood" && <AddFood />}
         {activePage === "addCatagory" &&  <CategoryPage />}
 
       </div>
