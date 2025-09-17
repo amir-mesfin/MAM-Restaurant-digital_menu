@@ -37,7 +37,6 @@ export default function AddFood() {
     const { id, value } = e.target;
     setDataForm({ ...dataForm, [id]: value });
     
-    // Clear error when user starts typing
     if (errors[id]) {
       setErrors({...errors, [id]: ''});
     }
@@ -47,7 +46,6 @@ export default function AddFood() {
     const image = e.target.files[0];
     if (!image) return;
     
-    // Reset previous errors
     setImageError('');
     
     if (!image.type.startsWith('image/')) {
@@ -61,7 +59,6 @@ export default function AddFood() {
     
     setImg(image);
     
-    // Create image preview
     const reader = new FileReader();
     reader.onload = () => {
       setImagePreview(reader.result);
@@ -132,13 +129,11 @@ export default function AddFood() {
     setIsSubmitting(true);
     
     try {
-      // First upload the image
       const imageUrl = await uploadCloudinary();
       if (!imageUrl) {
         throw new Error('ምስል መጫን አልተቻለም');
       }
       
-      // Then submit the form data with the image URL
       const submitData = {
         ...dataForm,
         foodUrl: imageUrl
@@ -167,7 +162,6 @@ export default function AddFood() {
 
   return (
     <div className=''>
-      <h1 className='text-2xl font-semibold text-center mb-7 text-amber-700'>ምግብ ጨምር</h1>
 
       {success && (
         <div className="mb-4 p-3 bg-green-100 text-green-700 rounded-md">

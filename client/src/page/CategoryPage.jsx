@@ -130,7 +130,6 @@ export default function CategoryPage() {
 
   return (
     <div className='flex flex-col p-4 bg-gray-50 min-h-screen'>
-      <h2 className='text-2xl font-bold text-center mb-6 text-amber-800'>የምግብ ምድብ አስተዳደር</h2>
 
       <div className='flex flex-col lg:flex-row gap-6'>
         
