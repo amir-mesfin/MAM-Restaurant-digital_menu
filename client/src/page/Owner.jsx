@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import CategoryPage from './CategoryPage';
 import AddFood from './AddFood';
+import EditFood from './EditFood';
 
 export default function Owner() {
   const [activePage, setActivePage] = useState('edit');
@@ -67,14 +68,7 @@ export default function Owner() {
         </div>
         
         <div className="bg-white rounded-lg p-4 md:p-6 shadow-sm border border-amber-100">
-          {activePage === "edit" && (
-            <div className="text-center py-10">
-              <div className="text-5xl mb-4">🍽️</div>
-              <h2 className="text-xl font-semibold text-amber-700">የምግብ አስተዳደር</h2>
-              <p className="text-amber-600 mt-2">ከምግብ ዝርዝርዎ ምግቦችን ለመምረጥ ይቅርታ ገን አይጨናነቅ</p>
-              <p className="text-amber-500 text-sm mt-4">ይህ ክፍል በሚቀጥለው ማሻሻያ ይጨምራል</p>
-            </div>
-          )}
+          {activePage === "edit" && <EditFood />}
           {activePage === "addFood" && <AddFood />}
           {activePage === "addCatagory" && <CategoryPage />}
         </div>
