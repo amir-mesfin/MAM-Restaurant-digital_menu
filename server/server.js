@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import  connectDB from './config/db.js';
 import auth from './router/auth.routes.js'
 import category from './router/category.routes.js'
+import food from './router/food.routes.js'
 
 dotenv.config();
 const  app = express();
@@ -18,6 +19,7 @@ app.use(express.json());
 
  app.use('/api/auth', auth);
  app.use('/api/category', category);
+ app.use('/api/food', food);
 
 
 

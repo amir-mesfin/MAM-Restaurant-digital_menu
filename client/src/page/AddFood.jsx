@@ -52,7 +52,7 @@ export default function AddFood() {
           <label className=''>add food image</label>
           <input
             type="file"
-               onChange={handleImageChange}
+              //  onChange={handleImageChange}
                className=' ml-3 flex-1 p-2 border border-gray-300 rounded-lg file:mr-3 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-medium file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100 bg-white'
           />
         </div>
