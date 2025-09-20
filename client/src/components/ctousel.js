@@ -32,7 +32,6 @@ export const carouselData = [
 
 // Header/menu categories
 export const headerData = [
-  { content: "ዋና ገፅ", icon: home },
   { content: "በርገር", icon: burger },
   { content: "ፒዛ", icon: pizza },
   { content: "አሳ", icon: fish },

@@ -35,3 +35,22 @@ export const addFood = async (req, res, next) => {
     next(err);
   }
 };
+
+
+export const getFoodByCategory = async (req, res, next) => {
+  try {
+    const { categoryName } = req.params;
+    const food = await Food.find({ foodCategory: categoryName });
+  console.log(categoryName);
+    if (!food || food.length === 0) {
+      console.log(abushe);
+
+      return next(errorHandler(404, 'በዚህ ምድብ ምግብ አልተገኘም።'));
+    }
+
+    res.status(200).json(food);
+
+  } catch (err) {
+    next(err);
+  }
+}
