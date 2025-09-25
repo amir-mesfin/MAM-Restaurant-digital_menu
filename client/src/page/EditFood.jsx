@@ -60,7 +60,7 @@ export default function EditFood() {
 
         {/* body */}
 
-        <div>
+        <div className='p-4  bg-[#ffe6b3] min-h-screen w-full'>
           {selectedCategory && <FoodList categoryName={selectedCategory.catagoryName} />}
         </div>
       </div>

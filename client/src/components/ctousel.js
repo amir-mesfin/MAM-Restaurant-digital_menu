@@ -21,9 +21,9 @@ import wrap from '../assets/wrapping-paper.png'; // create a wrap icon if needed
 
 // Carousel data
 export const carouselData = [
-  { image: crousel1, text: "ማም ሬስቶራንት፡ ኢትዮጵያዊው ጣዕም በዘመናዊ መልኩ!" },
-  { image: crousel2, text: "በማም ሬስቶራንት ውስጥ ያለው ምግብ ለሰውነት ምግብ ብቻ ሳይሆን ለነፍስ ምቾትም ነው" },
-  { image: crousel3, text: "ከእኛ ጋር የምትበሉት ምግብ የተፈጥሮ ጤና እና የባህል ጥራት ተጣምሮ የተሰራ ነው!" },
+  { image: crousel1, text: "mohamed ማም ሬስቶራንት፡ ኢትዮጵያዊው ጣዕም በዘመናዊ መልኩ!" },
+  { image: crousel2, text: "hamad በማም ሬስቶራንት ውስጥ ያለው ምግብ ለሰውነት ምግብ ብቻ ሳይሆን ለነፍስ ምቾትም ነው" },
+  { image: crousel3, text: " mahir ከእኛ ጋር የምትበሉት ምግብ የተፈጥሮ ጤና እና የባህል ጥራት ተጣምሮ የተሰራ ነው!" },
   { image: crousel4, text: "ከዶሮ ወጥ እስከ ትኩሳ እንጀራ - የኢትዮጵያ ልዩ ጣዕሞች በሙሉ!" },
   { image: crousel5, text: "ለተለየ የምግብ ተሞክሮ ዛሬ ማም ሬስቶራንት ይጎብኙ" },
   { image: crousel6, text: "እያንዳንዱ ጣዕም የተለየ ታሪክ ይነግራል - የእኛ ታሪክ ለእርስዎ ደስታ ይሆናል" },
