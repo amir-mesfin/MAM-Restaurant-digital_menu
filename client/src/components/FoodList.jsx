@@ -24,8 +24,8 @@ export default function FoodList({ categoryName }) {
   if (loading) return <div className="text-center py-4">በመጫን ላይ...</div>;
 
   return (
-    <div className="p-6 bg-[#ffe6b3]">
-      <h1 className="text-2xl font-bold mb-6 text-center">{categoryName}</h1>
+    <div className="p-6 bg-[#ffe6b3] min-w-50 min-h-33">
+      <h1 className="text-2xl font-bold mb-6 text-center mx-auto">{categoryName}</h1>
       
       <div className="  gap-6">
         {foods.map((item) => (
@@ -51,9 +51,9 @@ export default function FoodList({ categoryName }) {
             </p>
 
             {/* Button */}
-            <button className="mt-3 bg-yellow-400 text-white font-semibold py-2 px-4 rounded-lg hover:bg-yellow-500 transition">
-              በአሁኑ ጊዜ ይግዙ
-            </button>
+            <p className="mt-3 bg-yellow-400 text-white font-semibold py-2 px-4 rounded-lg hover:bg-yellow-500 transition">
+              {item.description}
+            </p>
           </div>
         ))}
       </div>
