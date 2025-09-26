@@ -8,7 +8,7 @@ export default function FoodList({ categoryName }) {
   const [editForm, setEditForm] = useState({
     foodName: '',
     foodPrice: '',
-    description: '',
+    foodDescription: '',
     foodUrl: ''
   });
 
@@ -33,7 +33,7 @@ export default function FoodList({ categoryName }) {
     setEditForm({
       foodName: foodItem.foodName,
       foodPrice: foodItem.foodPrice,
-      description: foodItem.description,
+      foodDescription: foodItem.foodDescription,
       foodUrl: foodItem.foodUrl
     });
   };
@@ -43,7 +43,7 @@ export default function FoodList({ categoryName }) {
     setEditForm({
       foodName: '',
       foodPrice: '',
-      description: '',
+      foodDescription: '',
       foodUrl: ''
     });
   };
@@ -129,8 +129,8 @@ export default function FoodList({ categoryName }) {
                 />
                 <input
                   type="text"
-                  name="description"
-                  value={editForm.description}
+                  name="foodDescription"
+                  value={editForm.foodDescription}
                   onChange={handleInputChange}
                   className="w-full p-2 border border-gray-300 rounded-md text-sm"
                   placeholder="መግለጫ"
@@ -169,7 +169,7 @@ export default function FoodList({ categoryName }) {
                   {item.foodPrice} ብር
                 </p>
                 <p className="mt-3 bg-yellow-400 text-white font-semibold py-2 px-4 rounded-lg text-sm md:text-base w-full">
-                  {item.description}
+                  {item.foodDescription}
                 </p>
 
                 {/* Edit and Delete Buttons */}

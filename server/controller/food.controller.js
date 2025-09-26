@@ -3,7 +3,7 @@ import Category from "../model/catagory.model.js";
 import { errorHandler } from "../utils/error.js";
 
 export const addFood = async (req, res, next) => {
-  const { foodName, foodDEscription, foodPrice, foodUrl, foodCategory } = req.body;
+  const { foodName, foodDescription, foodPrice, foodUrl, foodCategory } = req.body;
 
   try {
     // የምግቡ አስቀድሞ ካለ አረጋግጥ
@@ -23,7 +23,7 @@ export const addFood = async (req, res, next) => {
     // አዲስ ምግብ ፍጠር
     const newFood = new Food({
       foodName,
-      foodDEscription,
+      foodDescription,
       foodPrice,
       foodUrl,
       foodCategory,
@@ -41,9 +41,9 @@ export const getFoodByCategory = async (req, res, next) => {
   try {
     const { categoryName } = req.params;
     const food = await Food.find({ foodCategory: categoryName });
-  console.log(categoryName);
+  // console.log(categoryName);
     if (!food || food.length === 0) {
-      console.log(abushe);
+      // console.log(abushe);
 
       return next(errorHandler(404, 'በዚህ ምድብ ምግብ አልተገኘም።'));
     }
@@ -54,3 +54,44 @@ export const getFoodByCategory = async (req, res, next) => {
     next(err);
   }
 }
+
+// Update a food
+export const updateFood = async (req, res) => {
+  // console.log("mohameddddd")
+  const { foodId } = req.params;
+  const { foodName, foodPrice, foodDescription, foodCategory } = req.body;
+
+  try {
+    const updatedFood = await Food.findByIdAndUpdate(
+      foodId,
+      { foodName, foodPrice, foodDescription, foodCategory },
+      { new: true }
+    );
+
+    if (!updatedFood) {
+      return res.status(404).json({ message: 'Food not found' });
+    }
+
+    res.status(200).json(updatedFood);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error while updating food' });
+  }
+};
+
+export const deleteFood = async (req, res) => {
+  const { foodId } = req.params;
+
+  try {
+    const deletedFood = await Food.findByIdAndDelete(foodId);
+
+    if (!deletedFood) {
+      return res.status(404).json({ message: 'Food not found' });
+    }
+
+    res.status(200).json({ message: 'Food successfully deleted' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error while deleting food' });
+  }
+};
