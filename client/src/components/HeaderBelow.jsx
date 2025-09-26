@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { headerData } from "./ctousel.js";
+// import { headerData } from "./ctousel.js";
 import { Link, useParams } from "react-router-dom";
 import { FaBars, FaTimes, FaHome, FaUtensils } from "react-icons/fa";
 import logo from '../../public/image/mamLogo.png';
-
+import api from "../api/axios";
 export default function HeaderBelow() {
   const { catagoryName } = useParams();
   const [open, setOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [getCategory, setGetCategory] = useState([]);
 
-  // Handle window resize to detect mobile devices
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -36,6 +37,20 @@ export default function HeaderBelow() {
     };
   }, [open, isMobile]);
 
+  const fetchCategories = async () => {
+    try {
+      const res = await api.get('/category/showCatagory');
+      setGetCategory(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+
   return (
     <div className="relative">
       {/* Mobile Top Bar */}
@@ -51,8 +66,8 @@ export default function HeaderBelow() {
         
       {/* Desktop Menu */}
       <div className="hidden md:flex gap-6 flex-wrap justify-center items-center bg-gradient-to-r from-amber-600 to-amber-700 p-4 rounded-lg shadow-md">
-        {headerData.map((item, index) => (
-          <Link key={index} to={`catagory/${item.content}`}>
+        {getCategory.map((item) => (
+          <Link key={item._id} to={`catagory/${item.catagoryName}`}>
             <div
               className="min-w-[110px] flex flex-col items-center py-2 px-3 rounded-lg cursor-pointer 
                          transition-all duration-300 hover:bg-amber-800 relative group"
@@ -61,13 +76,13 @@ export default function HeaderBelow() {
               <div className="bg-amber-100 p-2 rounded-full mb-2 group-hover:bg-white transition-colors duration-300">
                 <img
                   className="w-6 h-6 object-contain transition-transform duration-500 group-hover:scale-110"
-                  src={item.icon}
-                  alt={item.content}
+                  src={item.url}
+                  alt={item.catagoryName}
                 />
               </div>
               
               <span className="text-white font-medium text-sm transition-colors duration-300 group-hover:text-amber-100 text-center">
-                {item.content}
+                {item.catagoryName}
               </span>
 
               {/* Animated underline effect */}
@@ -123,22 +138,22 @@ export default function HeaderBelow() {
             </h3>
             
             <ul className="space-y-2">
-              {headerData.map((item, index) => (
-                <li key={index}>
+              {getCategory.map((item) => (
+                <li key={item._id}>
                   <Link
-                    to={`catagory/${item.content}`}
+                    to={`catagory/${item.catagoryName}`}
                     onClick={() => setOpen(false)} 
                     className="flex items-center gap-4 p-3 rounded-lg transition-all duration-300 
                                hover:bg-amber-800 hover:shadow-inner"
                   >
                     <div className="bg-amber-100 p-2 rounded-full">
                       <img
-                        src={item.icon}
-                        alt={item.content}
+                        src={item.url}
+                        alt={item.catagoryName}
                         className="h-6 w-6 object-contain"
                       />
                     </div>
-                    <span className="font-medium">{item.content}</span>
+                    <span className="font-medium">{item.catagoryName}</span>
                   </Link>
                 </li>
               ))}
