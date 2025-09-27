@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import { headerData } from "./ctousel.js";
 import { Link, useParams } from "react-router-dom";
 import { FaBars, FaTimes, FaHome, FaUtensils } from "react-icons/fa";
 import logo from '../../public/image/mamLogo.png';

@@ -1,31 +1,49 @@
-import React, {useState, useEffect} from "react";
-import { toast } from "react-toastify";
-import api from '../api/axios.js';
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../api/axios.js";
+
 export default function Sign() {
-  const [formData, setFormDate] = useState({});
+  const [formData, setFormData] = useState({ username: "", password: "" });
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const handleChange = (e) =>{
-      setFormDate({
-        ...formData,
-        [e.target.id ] : e.target.value, 
-      });
-    
-  }
-  const handleSubmit= async (e) =>{
+
+  // Handle input changes
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+  };
+
+  // Handle form submit
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
-         const res = await api.post('/auth/signin',formData);
-         const da =  res.data;
-         navigate('/owner')
-    }catch(err){
-        setError(err);
+    setError(null);
+    setLoading(true);
+
+    try {
+      const res = await api.post("/auth/signin", formData);
+
+      if (res.status === 200) {
+        navigate("/owner"); // redirect on success
+      }
+    } catch (err) {
+      if (err.response) {
+        const { status, data } = err.response;
+        if (status === 401) setError("❌ Wrong username or password");
+        else if (status === 404) setError("❌ User not found");
+        else if (status === 500) setError("⚠️ Server error, please try again later");
+        else setError(data.message || "⚠️ Something went wrong");
+      } else if (err.request) {
+        setError("⚠️ No response from server. Check your network.");
+      } else {
+        setError("⚠️ " + err.message);
+      }
+    } finally {
+      setLoading(false);
     }
-  }
-//   React.useEffect(()=>{
-//    console.log(formData);
-// },[formData]);
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[hsl(38,70%,84%)] px-4">
@@ -35,38 +53,52 @@ export default function Sign() {
           ሜኑ ለማስተካከል ይግቡ
         </h1>
 
-        <form className="space-y-4"
-             onSubmit={handleSubmit}>
+        {/* Form */}
+        <form className="space-y-4" onSubmit={handleSubmit}>
           {/* Username */}
           <div className="flex flex-col">
-            <label className="mb-1 text-sm font-medium text-gray-700">የተጠቃሚ ስም</label>
+            <label className="mb-1 text-sm font-medium text-gray-700">
+              የተጠቃሚ ስም
+            </label>
             <input
               type="text"
-              placeholder="ስምዎን ያስገቡ"
-              className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 outline-none"
               id="username"
+              placeholder="ስምዎን ያስገቡ"
+              value={formData.username}
               onChange={handleChange}
+              className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 outline-none"
             />
           </div>
 
           {/* Password */}
           <div className="flex flex-col">
-            <label className="mb-1 text-sm font-medium text-gray-700">የይለፍ ቃል</label>
+            <label className="mb-1 text-sm font-medium text-gray-700">
+              የይለፍ ቃል
+            </label>
             <input
               type="password"
+              id="password"
               placeholder="የይለፍ ቃልዎን ያስገቡ"
-              className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 outline-none"
-              id='password'
+              value={formData.password}
               onChange={handleChange}
+              className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 outline-none"
             />
           </div>
-           { error && <p className="text-sm text-red-800"> {error.message}</p>}
+
+          {/* Error */}
+          {error && <p className="text-sm text-red-800">{error}</p>}
+
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-amber-600 text-white py-2 rounded-lg hover:bg-amber-700 transition duration-300"
+            disabled={loading}
+            className={`w-full py-2 rounded-lg text-white transition duration-300 ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-amber-600 hover:bg-amber-700"
+            }`}
           >
-            ግባ
+            {loading ? "Loading..." : "ግባ"}
           </button>
         </form>
       </div>
