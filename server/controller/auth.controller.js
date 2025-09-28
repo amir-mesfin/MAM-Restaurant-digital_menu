@@ -15,14 +15,14 @@ export const signin = async (req, res, next) => {
     const { username, password } = req.body;
     const validUser = await User.findOne({ username });
 
-    if (!validUser) return next(errorHandler(404, "User not found"));
+    if (!validUser) return next(errorHandler(404, "ተጠቃሚ አልተገኘም"));
 
 
 
-const validPassword = await bcrypt.compare(password, validUser.password);
+const validPassword = await bcrypt.compareSync(password, validUser.password);
 console.log("Password valid:", validPassword);
 
-    if (!validPassword) return next(errorHandler(401, "Wrong credentials"));
+    if (!validPassword) return next(errorHandler(401, "ስም እና የሚስጥር ቁልፍ ትክክል አይደለም"));
     
     const token = jwt.sign(
       { id: validUser._id, role: validUser.role },
@@ -38,5 +38,18 @@ console.log("Password valid:", validPassword);
 
   } catch (err) {
     next(err);
+  }
+};
+
+
+export const getMe = (req, res) => {
+  const token = req.cookies.access_token; // get cookie
+  if (!token) return res.status(401).json({ message: "Not authenticated" });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    res.status(200).json({ id: decoded.id, role: decoded.role });
+  } catch (err) {
+    res.status(401).json({ message: "Invalid token" });
   }
 };

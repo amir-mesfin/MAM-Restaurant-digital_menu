@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios.js";
 
@@ -8,7 +8,14 @@ export default function Sign() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Handle input changes
+  
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      navigate("/owner"); 
+    }
+  }, [navigate]);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -16,7 +23,7 @@ export default function Sign() {
     });
   };
 
-  // Handle form submit
+  // ፎርም መላክ
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -26,17 +33,22 @@ export default function Sign() {
       const res = await api.post("/auth/signin", formData);
 
       if (res.status === 200) {
-        navigate("/owner"); // redirect on success
+        // ቶክን በ localStorage ውስጥ መያዝ
+        localStorage.setItem("access_token", res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data));
+
+        
+        navigate("/owner");
       }
     } catch (err) {
       if (err.response) {
-        const { status, data } = err.response;
-        if (status === 401) setError("❌ Wrong username or password");
-        else if (status === 404) setError("❌ User not found");
-        else if (status === 500) setError("⚠️ Server error, please try again later");
-        else setError(data.message || "⚠️ Something went wrong");
+        const { status } = err.response;
+        if (status === 401) setError("❌ ስም ወይም የይለፍ ቃል ትክክል አይደለም");
+        else if (status === 404) setError("❌ ተጠቃሚ አልተገኘም");
+        else if (status === 500) setError("⚠️ አገልግሎት ስህተት አለ፣ እባክዎ ከድጋሚ ይሞክሩ");
+        else setError("⚠️ አንዳንድ ስህተት ተፈጥሯል");
       } else if (err.request) {
-        setError("⚠️ No response from server. Check your network.");
+        setError("⚠️ ከአገልግሎት መልስ አልተቀበለም፣ ኔትወርክዎን ይፈትሹ");
       } else {
         setError("⚠️ " + err.message);
       }
@@ -48,14 +60,14 @@ export default function Sign() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[hsl(38,70%,84%)] px-4">
       <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6">
-        {/* Heading */}
+        {/* ራዕይ */}
         <h1 className="text-2xl md:text-3xl font-semibold text-center text-amber-700 italic mb-6">
           ሜኑ ለማስተካከል ይግቡ
         </h1>
 
-        {/* Form */}
+        {/* ፎርም */}
         <form className="space-y-4" onSubmit={handleSubmit}>
-          {/* Username */}
+          {/* የተጠቃሚ ስም */}
           <div className="flex flex-col">
             <label className="mb-1 text-sm font-medium text-gray-700">
               የተጠቃሚ ስም
@@ -70,7 +82,7 @@ export default function Sign() {
             />
           </div>
 
-          {/* Password */}
+          {/* የይለፍ ቃል */}
           <div className="flex flex-col">
             <label className="mb-1 text-sm font-medium text-gray-700">
               የይለፍ ቃል
@@ -85,10 +97,10 @@ export default function Sign() {
             />
           </div>
 
-          {/* Error */}
+          {/* ስህተት */}
           {error && <p className="text-sm text-red-800">{error}</p>}
 
-          {/* Submit Button */}
+          {/* ግባ አዝራር */}
           <button
             type="submit"
             disabled={loading}
@@ -98,7 +110,7 @@ export default function Sign() {
                 : "bg-amber-600 hover:bg-amber-700"
             }`}
           >
-            {loading ? "Loading..." : "ግባ"}
+            {loading ? "በሂደት ላይ..." : "ግባ"}
           </button>
         </form>
       </div>

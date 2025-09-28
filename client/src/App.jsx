@@ -7,7 +7,7 @@ import Catagory from "./components/Catagory";
 import Footer from "./components/Footer";
 import Sign from "./page/Sign";
 import Owner from "./page/Owner";
-
+import ProtectedRouter from "./page/ProtectedRouter";
 function Layout({ children }) {
   const location = useLocation();
 
@@ -35,7 +35,15 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/catagory/:catagoryName" element={<Catagory />} />
           <Route path="/sign" element={<Sign />} />
-          <Route path="/owner" element={<Owner />} />
+          
+          <Route
+          path="/owner"
+          element={
+            <ProtectedRouter>
+             <Owner />
+            </ProtectedRouter>
+          }
+        />
         </Routes>
       </Layout>
     </BrowserRouter>
