@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import Sign from "./page/Sign";
 import Owner from "./page/Owner";
 import ProtectedRouter from "./page/ProtectedRouter";
+
 function Layout({ children }) {
   const location = useLocation();
 
@@ -37,13 +38,16 @@ function App() {
           <Route path="/sign" element={<Sign />} />
           
           <Route
-          path="/owner"
-          element={
-            <ProtectedRouter>
-             <Owner />
-            </ProtectedRouter>
-          }
-        />
+            path="/owner"
+            element={
+              <ProtectedRouter>
+                <Owner />
+              </ProtectedRouter>
+            }
+          />
+          
+          {/* Add catch-all route for undefined paths */}
+          <Route path="*" element={<Home />} />
         </Routes>
       </Layout>
     </BrowserRouter>

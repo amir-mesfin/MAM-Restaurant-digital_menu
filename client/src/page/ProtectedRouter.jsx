@@ -8,10 +8,22 @@ function ProtectedRouter({ children }) {
 
   useEffect(() => {
     const checkAuth = async () => {
+      const token = localStorage.getItem("access_token");
+      
+      // If no token exists, redirect immediately
+      if (!token) {
+        setAuthenticated(false);
+        setLoading(false);
+        return;
+      }
+
       try {
-        await api.get("/auth/me"); 
+        await api.get("/auth/me");
         setAuthenticated(true);
       } catch (err) {
+        // Clear invalid token
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("user");
         setAuthenticated(false);
       } finally {
         setLoading(false);
@@ -21,8 +33,18 @@ function ProtectedRouter({ children }) {
     checkAuth();
   }, []);
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-lg">Loading...</div>
+      </div>
+    );
+  }
 
-  if (!authenticated) return <Navigate to="/home" replace />;
+  // Redirect to sign page if not authenticated
+  if (!authenticated) {
+    return <Navigate to="/sign" replace />;
+  }
 
   return children;
 }

@@ -8,11 +8,10 @@ export default function Sign() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  
   useEffect(() => {
     const token = localStorage.getItem("access_token");
     if (token) {
-      navigate("/owner"); 
+      navigate("/owner");
     }
   }, [navigate]);
 
@@ -23,9 +22,15 @@ export default function Sign() {
     });
   };
 
-  // ፎርም መላክ
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Basic validation
+    if (!formData.username.trim() || !formData.password.trim()) {
+      setError("❌ ስም እና የይለፍ ቃል መሙላት አለባቸው");
+      return;
+    }
+
     setError(null);
     setLoading(true);
 
@@ -33,11 +38,11 @@ export default function Sign() {
       const res = await api.post("/auth/signin", formData);
 
       if (res.status === 200) {
-        // ቶክን በ localStorage ውስጥ መያዝ
+        // Store token and user data
         localStorage.setItem("access_token", res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data));
-
         
+        // Redirect to owner page
         navigate("/owner");
       }
     } catch (err) {
@@ -79,6 +84,7 @@ export default function Sign() {
               value={formData.username}
               onChange={handleChange}
               className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 outline-none"
+              required
             />
           </div>
 
@@ -94,11 +100,12 @@ export default function Sign() {
               value={formData.password}
               onChange={handleChange}
               className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 outline-none"
+              required
             />
           </div>
 
           {/* ስህተት */}
-          {error && <p className="text-sm text-red-800">{error}</p>}
+          {error && <p className="text-sm text-red-800 text-center">{error}</p>}
 
           {/* ግባ አዝራር */}
           <button
