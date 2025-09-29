@@ -10,7 +10,7 @@ export default function CategoryPage() {
   const [success, setSuccess] = useState(null);
   const [getCategory, setGetCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
-
+ 
   // handle inputs
   const handleChange = (e) => {
     const { id, value } = e.target;
