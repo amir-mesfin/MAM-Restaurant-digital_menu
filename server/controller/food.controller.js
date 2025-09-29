@@ -79,7 +79,7 @@ export const updateFood = async (req, res) => {
   }
 };
 
-export const deleteFood = async (req, res) => {
+export const deleteFood = async (req, res, next) => {
   const { foodId } = req.params;
 
   try {
@@ -93,5 +93,19 @@ export const deleteFood = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error while deleting food' });
+  }
+};
+
+export const GetAllFood = async (req, res, next) => {
+  try {
+    const allFood = await Food.find();
+
+    if (allFood.length === 0) {
+      return next(errorHandler(404, 'No food found'));
+    }
+
+    res.status(200).json(allFood);
+  } catch (err) {
+    next(err);
   }
 };

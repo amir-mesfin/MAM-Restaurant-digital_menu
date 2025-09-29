@@ -3,13 +3,13 @@ import catagory from "../model/catagory.model.js"
 
 // ምድብ መጨመር
 export const addCatagory = async (req,res,next)=>{
-  const {catagoryName, url} = req.body;
+  const {catagoryName, url, catagoryDescription2, catagoryDescription1} = req.body;
    try{
       const check =  await catagory.findOne({catagoryName}).lean();
       if(check){
         return next(errorHandler(409,`'${catagoryName}' አስቀድሞ አለ`));
       }
-     const newCategory = new catagory({catagoryName, url});
+     const newCategory = new catagory({catagoryName, url,  catagoryDescription2, catagoryDescription1});
       await newCategory.save();
 
       res.status(200).json('ምድቡ በትክክል ታክሏል');
@@ -34,12 +34,12 @@ export const showCatagory = async(req, res, next) => {
 // ምድብ ማሻሻል
 export const updateCategory = async(req, res , next)=>{
     const { categoryID } = req.params;  
-    const { catagoryName, url } = req.body; 
+    const { catagoryName, url, catagoryDescription2, catagoryDescription1 } = req.body; 
   
     try {
       const updated = await catagory.findByIdAndUpdate(
         categoryID,
-        { catagoryName, url },
+        { catagoryName, url,  catagoryDescription2, catagoryDescription1 },
         { new: true }
       );
       if (!updated) return res.status(404).json({ message: "ምድቡ አልተገኘም" });

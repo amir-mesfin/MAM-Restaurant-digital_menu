@@ -10,6 +10,15 @@ const catagorySchema = new mongoose.Schema({
     type:String,
     unique:true,
     require:true,
+  },
+  catagoryDescription1:{
+    type:String,
+    require:true,
+  },
+  catagoryDescription2:{
+    type:String,
+    
+    
   }
 },{timestamps:true}) 
 

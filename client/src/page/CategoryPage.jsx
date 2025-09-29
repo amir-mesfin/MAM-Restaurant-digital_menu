@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import api from '../api/axios';
 
 export default function CategoryPage() {
-  const [dataForm, setDataForm] = useState({ catagoryName: '', url: '' });
+  const [dataForm, setDataForm] = useState({ catagoryName: '', url: '', catagoryDescription1:'', catagoryDescription2:'' });
   const [img, setImg] = useState(null);
   const [imageError, SetImageError] = useState(null);
   const [error, setError] = useState();
@@ -195,6 +195,28 @@ export default function CategoryPage() {
                   onChange={handleChange}
                   className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500'
                   placeholder='የምድብ ስም ያስገቡ'
+                />
+              </div>
+              <div>
+                <label className='block mb-2 font-medium text-gray-700'>የምድብ መግለጫ 1</label>
+                <input 
+                  type="text"
+                  id='catagoryDescription1'
+                  value={dataForm.catagoryDescription1}
+                  onChange={handleChange}
+                  className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500'
+                  placeholder='የምድብ መግለጫ ያስገቡ'
+                />
+              </div>
+              <div>
+                <label className='block mb-2 font-medium text-gray-700'>የምድብ መግለጫ 2</label>
+                <input 
+                  type="text"
+                  id='catagoryDescription2'
+                  value={dataForm.catagoryDescription2}
+                  onChange={handleChange}
+                  className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500'
+                  placeholder='የምድብ መግለጫ ያስገቡ'
                 />
               </div>
 
