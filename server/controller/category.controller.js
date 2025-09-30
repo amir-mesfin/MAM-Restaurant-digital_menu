@@ -63,3 +63,18 @@ export  const deleteCategory = async (req, res, next)=>{
     res.status(500).json({ message: "የሰርቨር ችግር ተከስቷል", error: err.message });
   }
 }
+
+export const getCategory = async (req, res, next) => {
+  const { categoryID } = req.params;
+  console.log(categoryID);
+  try {
+    const category = await catagory.findById(categoryID).lean();
+    if (!category) {
+      return next(errorHandler(404, 'ምድቡ አልተገኘም'));
+    }
+    res.status(200).json({ success: true, data: category });
+  } catch (err) {
+    next(err);
+  }
+};
+

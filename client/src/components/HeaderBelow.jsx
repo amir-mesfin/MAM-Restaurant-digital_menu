@@ -66,7 +66,7 @@ export default function HeaderBelow() {
       {/* Desktop Menu */}
       <div className="hidden md:flex gap-6 flex-wrap justify-center items-center bg-gradient-to-r from-amber-600 to-amber-700 p-4 rounded-lg shadow-md">
         {getCategory.map((item) => (
-          <Link key={item._id} to={`catagory/${item.catagoryName}`}>
+          <Link key={item._id} to={`catagory/${item._id}`}>
             <div
               className="min-w-[110px] flex flex-col items-center py-2 px-3 rounded-lg cursor-pointer 
                          transition-all duration-300 hover:bg-amber-800 relative group"
@@ -140,7 +140,7 @@ export default function HeaderBelow() {
               {getCategory.map((item) => (
                 <li key={item._id}>
                   <Link
-                    to={`catagory/${item.catagoryName}`}
+                    to={`catagory/${item._id}`}
                     onClick={() => setOpen(false)} 
                     className="flex items-center gap-4 p-3 rounded-lg transition-all duration-300 
                                hover:bg-amber-800 hover:shadow-inner"

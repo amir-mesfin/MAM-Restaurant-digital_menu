@@ -112,8 +112,8 @@ export default function Home() {
                   {`ለምን የእኛን ${category.catagoryName} መምረጥ ይገባል ?`}
                 </p>
                 <ul className="text-gray-400 font-semibold flex flex-col gap-0.5">
-                  <li>{category.catagoryDescription1}</li>
-                  <li>{category.catagoryDescription2 && category.catagoryDescription2}</li>
+                  <li>{`✅ ${category.catagoryDescription1}`}</li>
+                  <li>{category.catagoryDescription2 && `✅ ${category.catagoryDescription2}`}</li>
                 </ul>
               </div>
             </div>

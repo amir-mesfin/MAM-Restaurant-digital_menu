@@ -34,7 +34,7 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/catagory/:catagoryName" element={<Catagory />} />
+          <Route path="/catagory/:catagoryId" element={<Catagory />} />
           <Route path="/sign" element={<Sign />} />
           
           <Route
