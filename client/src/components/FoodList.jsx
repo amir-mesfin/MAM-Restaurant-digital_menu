@@ -104,7 +104,7 @@ export default function FoodList({ categoryName }) {
                 src={item.foodUrl} 
                 alt={item.foodName}
                 className="w-full h-full object-cover"
-                loading="lazy"
+                
               />
             </div>
 
