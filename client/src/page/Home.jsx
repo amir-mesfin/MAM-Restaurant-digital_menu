@@ -104,7 +104,7 @@ export default function Home() {
             />
             
             <div className="flex flex-col gap-4 items-center my-auto"> 
-              <h1 className="text-2xl italic text-amber-600 font-semibold text-center mt-">
+              <h1 className="text-2xl italic text-amber-600 font-semibold text-center mt-5">
                 {`${category.catagoryName} ምርጫ`}
               </h1>
               <div className="sm:flex flex-col gap-1 hidden">

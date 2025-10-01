@@ -7,11 +7,10 @@ import {addCatagory,
 } from '../controller/category.controller.js';
 const router = express.Router();
 
+router.get('/getCategory/:categoryID', getCategory);
 router.post('/addCategory',addCatagory);
 router.get('/showCatagory',showCatagory);
 router.put('/categoryUpdate/:categoryID',updateCategory);
 router.delete('/categoryDelete/:categoryID',deleteCategory);
-router.get('/getCategory/:categoryID',getCategory);
-
 
 export default router;
