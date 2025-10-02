@@ -9,25 +9,35 @@ export default function Catagory() {
   const [categoryError, setCategoryError] = useState("");
   const [foodError, setFoodError] = useState("");
   const [inViewElements, setInViewElements] = useState(new Set());
+  const [loading, setLoading] = useState({
+    category: true,
+    foods: true
+  });
 
   const categoryRef = useRef(null);
   const foodRefs = useRef([]);
 
   const fetchCategories = async () => {
     try {
+      setLoading(prev => ({ ...prev, category: true }));
       const res = await api.get(`/category/getCategory/${catagoryId}`);
       setCategory(res.data);
     } catch (err) {
       setCategoryError("የምድብ መረጃ ማምጣት አልተቻለም");
+    } finally {
+      setLoading(prev => ({ ...prev, category: false }));
     }
   };
 
   const fetchAllFood = async (catagoryName) => {
     try {
+      setLoading(prev => ({ ...prev, foods: true }));
       const res = await api.get(`/food/getFood/${catagoryName}`);
       setFoods(res.data);
     } catch (err) {
       setFoodError("ምግብ ማምጣት አልተቻለም");
+    } finally {
+      setLoading(prev => ({ ...prev, foods: false }));
     }
   };
 
@@ -73,7 +83,11 @@ export default function Catagory() {
       {categoryError && <p className="text-red-500">{categoryError}</p>}
       {foodError && <p className="text-red-500">{foodError}</p>}
 
-      {category ? (
+      {loading.category ? (
+        <div className="flex justify-center items-center py-8">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
+        </div>
+      ) : category ? (
         <div>
           <h1 className="text-4xl text-amber-600 font-bold italic border-b-4 border-[#784115] pb-3 mb-6">
             {category.catagoryName}
@@ -113,7 +127,11 @@ export default function Catagory() {
 
           {/* Foods in this category */}
           <div className="grid grid-cols-2 sm:flex flex-wrap sm:justify-around gap-6">
-            {foods.length > 0 ? (
+            {loading.foods ? (
+              <div className="col-span-2 flex justify-center items-center py-8">
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-amber-600"></div>
+              </div>
+            ) : foods.length > 0 ? (
               foods.map((food, index) => (
                 <div
                   key={food._id}
@@ -138,12 +156,17 @@ export default function Catagory() {
                 </div>
               ))
             ) : (
-              <p className="text-gray-500">No foods found in this category</p>
+              <div className="col-span-2 text-center py-8">
+                <p className="text-gray-500 text-lg font-semibold">በዚህ ምድብ ውስጥ ምግብ የለም</p>
+                <p className="text-gray-400 mt-2">እባክዎ ቆጠራ ይመልሱ</p>
+              </div>
             )}
           </div>
         </div>
       ) : (
-        <p className="text-center text-lg text-gray-500">Loading category...</p>
+        !loading.category && (
+          <p className="text-center text-lg text-gray-500">ምድብ አልተገኘም</p>
+        )
       )}
 
       {/* Animations */}

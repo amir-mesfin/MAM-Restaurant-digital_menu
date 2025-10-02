@@ -4,7 +4,7 @@ import FoodList from '../components/FoodList';
 
 export default function EditFood() {
   const [getCategory, setGetCategory] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState();
 
 
   const fetchCategories = async () => {
