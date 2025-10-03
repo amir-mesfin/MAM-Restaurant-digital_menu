@@ -65,6 +65,27 @@ export default function HeaderBelow() {
         
       {/* Desktop Menu */}
       <div className="hidden md:flex gap-6 flex-wrap justify-center items-center bg-gradient-to-r from-amber-600 to-amber-700 p-4 rounded-lg shadow-md border-b-4 border-amber-400">
+        <Link  to='/'>
+            <div
+              className="min-w-[110px] flex flex-col items-center py-2 px-3 rounded-lg cursor-pointer 
+                         transition-all duration-300 hover:bg-amber-800 relative group animate-fade-in-up"
+            >
+              {/* Icon with subtle animation */}
+              <div className="bg-amber-100 p-2 rounded-full mb-2 group-hover:bg-white  duration-300 group-hover:scale-110 transform transition-transform">
+               
+                <FaHome className="w-6 h-6 object-contain transition-transform duration-500 group-hover:scale-110 rounded-full" />
+
+              </div>
+              
+              <span className="text-white font-medium text-sm transition-colors duration-300 group-hover:text-amber-100 text-center">
+              ዋና ገጽ
+              </span>
+
+              {/* Animated underline effect */}
+              <span className="absolute bottom-0 left-1/2 w-0 h-1 bg-white rounded-full transition-all 
+                               duration-500 group-hover:w-12 -translate-x-1/2"></span>
+            </div>
+          </Link>
         {getCategory.map((item) => (
           <Link key={item._id} to={`catagory/${item._id}`}>
             <div
@@ -74,7 +95,7 @@ export default function HeaderBelow() {
               {/* Icon with subtle animation */}
               <div className="bg-amber-100 p-2 rounded-full mb-2 group-hover:bg-white  duration-300 group-hover:scale-110 transform transition-transform">
                 <img
-                  className="w-6 h-6 object-contain transition-transform duration-500 group-hover:scale-110"
+                  className="w-6 h-6 object-contain transition-transform duration-500 group-hover:scale-110 rounded-full"
                   src={item.url}
                   alt={item.catagoryName}
                 />
@@ -151,10 +172,10 @@ export default function HeaderBelow() {
                       <img
                         src={item.url}
                         alt={item.catagoryName}
-                        className="h-6 w-6 object-contain animate-spin-slow"
+                        className="h-8 w-8 object-contain animate-spin-slow rounded-full" 
                       />
                     </div>
-                    <span className="font-medium animate-pulse">{item.catagoryName}</span>
+                    <span className="font-medium ">{item.catagoryName}</span>
                   </Link>
                 </li>
               ))}

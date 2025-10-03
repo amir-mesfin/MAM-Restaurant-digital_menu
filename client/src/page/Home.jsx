@@ -141,7 +141,7 @@ export default function Home() {
                     <p className="text-gray-400 mt-2">እባክዎ ቆጠራ ይመልሱ</p>
                   </div>
                 ) : (
-                  categoryFoods.map((food, idx) => {
+                  categoryFoods.map((food) => {
                     const globalFoodIndex = foods.findIndex(f => f._id === food._id);
                     return (
                       <div
