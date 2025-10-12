@@ -63,14 +63,13 @@ export const getFoodByCategory = async (req, res, next) => {
 
 // Update a food
 export const updateFood = async (req, res) => {
-  // console.log("mohameddddd")
   const { foodId } = req.params;
-  const { foodName, foodPrice, foodDescription, foodCategory } = req.body;
+  const { foodName, foodPrice, foodDescription, foodCategory, foodUrl } = req.body; // ✅ add foodUrl
 
   try {
     const updatedFood = await Food.findByIdAndUpdate(
       foodId,
-      { foodName, foodPrice, foodDescription, foodCategory },
+      { foodName, foodPrice, foodDescription, foodCategory, foodUrl }, // ✅ include foodUrl
       { new: true }
     );
 
@@ -84,6 +83,7 @@ export const updateFood = async (req, res) => {
     res.status(500).json({ message: 'Server error while updating food' });
   }
 };
+
 
 export const deleteFood = async (req, res, next) => {
   const { foodId } = req.params;
