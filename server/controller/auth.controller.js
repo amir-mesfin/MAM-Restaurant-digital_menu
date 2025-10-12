@@ -20,7 +20,7 @@ export const signin = async (req, res, next) => {
 
 
 const validPassword =  bcrypt.compareSync(password, validUser.password);
-console.log("Password valid:", validPassword);
+// console.log("Password valid:", validPassword);
 
     if (!validPassword) return next(errorHandler(401, "ስም እና የሚስጥር ቁልፍ ትክክል አይደለም"));
     

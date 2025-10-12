@@ -39,14 +39,14 @@ export const addFood = async (req, res, next) => {
 export const getFoodByCategory = async (req, res, next) => {
   try {
     const { categoryId } = req.params;
-    console.log('Received categoryId:', categoryId);
+    // console.log('Received categoryId:', categoryId);
 
     const categoryObjectId = new mongoose.Types.ObjectId(categoryId);
 
     const foods = await Food.find({ foodCategory: categoryObjectId })
       .populate('foodCategory', 'catagoryName url catagoryDescription1 catagoryDescription2');
 
-    console.log('Found foods:', foods);
+    // console.log('Found foods:', foods);
 
     if (!foods || foods.length === 0) {
       return next(errorHandler(404, 'በዚህ ምድብ ምግብ አልተገኘም።'));
