@@ -15,7 +15,7 @@ export default function Home() {
   } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
-      const res = await api.get("/category/showCatagory");
+      const res = await api.get("/category/showCategory");
       return res.data;
     },
     staleTime: 50 * 60 * 1000, // 5 min cache
@@ -90,8 +90,17 @@ export default function Home() {
         </div>
       ) : (
         categories.map((category, categoryIndex) => {
-          const categoryFoods = foods.filter(food => food.foodCategory === category.catagoryName);
-          
+          // ✅ Filter foods by category ID safely
+          const categoryFoods = foods.filter(food => {
+            if (!food.foodCategory) return false;
+            // Handle both ObjectId and populated object
+            const foodCategoryId =
+              typeof food.foodCategory === "object"
+                ? food.foodCategory._id
+                : food.foodCategory;
+            return foodCategoryId === category._id;
+          });
+
           return (
             <div key={category._id} className="mb-12">
               {/* Category Title & Image */}
@@ -102,18 +111,18 @@ export default function Home() {
               <div className="sm:flex space-x-4 mb-4">
                 {/* Category Image with Spin Animation */}
                 <img
-                  ref={el => categoryRefs.current[categoryIndex] = el}
+                  ref={el => (categoryRefs.current[categoryIndex] = el)}
                   id={`category-${category._id}`}
                   src={category.url}
                   alt={category.catagoryName}
                   className={`w-100 h-45 rounded-2xl transition-all duration-1000 ease-in-out ${
-                    inViewElements.has(`category-${category._id}`) 
-                      ? 'animate-spin-once' 
-                      : 'opacity-0'
+                    inViewElements.has(`category-${category._id}`)
+                      ? "animate-spin-once"
+                      : "opacity-0"
                   }`}
                 />
-                
-                <div className="flex flex-col gap-4 items-center my-auto"> 
+
+                <div className="flex flex-col gap-4 items-center my-auto">
                   <h1 className="text-2xl italic text-amber-600 font-semibold text-center mt-5">
                     {`${category.catagoryName} ምርጫ`}
                   </h1>
@@ -141,7 +150,7 @@ export default function Home() {
                     <p className="text-gray-400 mt-2">እባክዎ ቆጠራ ይመልሱ</p>
                   </div>
                 ) : (
-                  categoryFoods.map((food) => {
+                  categoryFoods.map(food => {
                     const globalFoodIndex = foods.findIndex(f => f._id === food._id);
                     return (
                       <div
@@ -152,14 +161,14 @@ export default function Home() {
                           inViewElements.has(`food-${food._id}`)
                             ? "animate-bounce-in"
                             : "opacity-0 translate-y-10"
-                        } hover:scale-105 hover:shadow-lg mt-15`}
+                        } hover:scale-105 hover:shadow-lg mt-15 border-b-5 border-amber-600`}
                       >
                         <img
                           src={food.foodUrl}
                           alt={food.foodName}
                           className="sm:h-32 sm:w-32 w-25 h-25 rounded-full mx-auto object-cover transition-transform duration-300 hover:scale-110 overflow-hidden sm:-mt-17 -mt-14"
                         />
-                        <h3 className="font-semibold mt-2 text-lg">{food.foodName}</h3>
+                        <h3 className="font-bold italic mt-2 text-lg">{food.foodName}</h3>
                         <p className="text-gray-600 text-sm mt-1">{food.foodDescription}</p>
                         <p className="text-orange-600 bg-orange-100 p-2 rounded-2xl font-bold mt-2">
                           {food.foodPrice} ብር

@@ -1,36 +1,35 @@
 import Food from "../model/food.model.js";
 import Category from "../model/catagory.model.js";
 import { errorHandler } from "../utils/error.js";
+import mongoose from "mongoose";
 
 export const addFood = async (req, res, next) => {
   const { foodName, foodDescription, foodPrice, foodUrl, foodCategory } = req.body;
 
   try {
-    // የምግቡ አስቀድሞ ካለ አረጋግጥ
+    // Check if food name already exists
     const foodCheck = await Food.findOne({ foodName }).lean();
     if (foodCheck) {
       return next(errorHandler(409, `ምግብ "${foodName}" አስቀድሞ ተመዝግቧል`));
     }
 
-    // የምድብ አስቀድሞ ካልተመዘገበ አስተውል
-    const categoryCheck = await Category.findOne({ catagoryName: foodCategory }).lean();
+    // Verify that category ID exists
+    const categoryCheck = await Category.findById(foodCategory).lean();
     if (!categoryCheck) {
-      return next(
-        errorHandler(404, `የምድብ "${foodCategory}" አልተገኘም። አስቀድሞ የምድብ መመዝገብ ያስፈልጋል።`)
-      );
+      return next(errorHandler(404, `የተመረጠው የምድብ ID አይታወቅም።`));
     }
 
-    // አዲስ ምግብ ፍጠር
+    // Create new food directly using ObjectId
     const newFood = new Food({
       foodName,
       foodDescription,
       foodPrice,
       foodUrl,
-      foodCategory,
+      foodCategory, // already ObjectId
     });
 
     await newFood.save();
-    res.status(201).json(`ምግብ "${foodName}" በትክክል ታክሏል ✅`);
+    res.status(201).json({ message: `ምግብ "${foodName}" በትክክል ታክሏል ✅` });
   } catch (err) {
     next(err);
   }
@@ -39,21 +38,28 @@ export const addFood = async (req, res, next) => {
 
 export const getFoodByCategory = async (req, res, next) => {
   try {
-    const { categoryName } = req.params;
-    const food = await Food.find({ foodCategory: categoryName });
-  // console.log(categoryName);
-    if (!food || food.length === 0) {
-      // console.log(abushe);
+    const { categoryId } = req.params;
+    console.log('Received categoryId:', categoryId);
 
+    const categoryObjectId = new mongoose.Types.ObjectId(categoryId);
+
+    const foods = await Food.find({ foodCategory: categoryObjectId })
+      .populate('foodCategory', 'catagoryName url catagoryDescription1 catagoryDescription2');
+
+    console.log('Found foods:', foods);
+
+    if (!foods || foods.length === 0) {
       return next(errorHandler(404, 'በዚህ ምድብ ምግብ አልተገኘም።'));
     }
 
-    res.status(200).json(food);
+    res.status(200).json(foods);
 
   } catch (err) {
+    console.error(err);
     next(err);
   }
 }
+
 
 // Update a food
 export const updateFood = async (req, res) => {

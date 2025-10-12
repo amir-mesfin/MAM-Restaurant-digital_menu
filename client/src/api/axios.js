@@ -3,7 +3,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const api = axios.create({
-  baseURL: 'https://digital-menu-backend-ucbn.onrender.com/api', 
+  baseURL: 'http://localhost:1361/api', 
   headers: {
     'Content-Type': 'application/json',
   },

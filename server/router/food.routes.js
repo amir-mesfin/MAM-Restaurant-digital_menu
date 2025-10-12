@@ -9,7 +9,7 @@ import { addFood,
 const router = express.Router();
 
 router.post('/addFood',addFood);
-router.get('/getFood/:categoryName',getFoodByCategory);
+router.get('/getFood/:categoryId',getFoodByCategory);
 router.put('/updateFood/:foodId',updateFood);
 router.delete('/deleteFood/:foodId',deleteFood);
 router.get('/getAllFood',GetAllFood);

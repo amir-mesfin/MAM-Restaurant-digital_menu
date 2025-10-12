@@ -1,27 +1,30 @@
-import mongoose  from "mongoose";
+// models/food.model.js
+import mongoose from 'mongoose';
+
 
 const foodSchema = new mongoose.Schema({
-  foodName:{
-    type:String,
-    require:true,
+  foodName: {
+    type: String,
+    require: true,
   },
-  foodDescription:{
-    type:String,
+  foodDescription: {
+    type: String,
   },
-  foodPrice:{
-    type:Number,
-    require:true,
+  foodPrice: {
+    type: Number,
+    require: true,
   },
-  foodUrl:{
-    type:String,
-    require:true,
+  foodUrl: {
+    type: String,
+    require: true,
   },
-  foodCategory:{
-    type:String,
-    require:true
+  foodCategory: {
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Catagory', 
+    require: true,
   }
-},{timestamps:true});
+}, { timestamps: true });
 
-const food = mongoose.model('Food',foodSchema);
+const food = mongoose.model('Food', foodSchema);
 
 export default food;

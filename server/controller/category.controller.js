@@ -18,8 +18,8 @@ export const addCatagory = async (req,res,next)=>{
    }
 }
 
-// ምድቦችን ማሳየት
-export const showCatagory = async(req, res, next) => {
+
+export const showCategory = async(req, res, next) => {
        try{
          const allCategory = await catagory.find();
          if(!allCategory || allCategory.length === 0){

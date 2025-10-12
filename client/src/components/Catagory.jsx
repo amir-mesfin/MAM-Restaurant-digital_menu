@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import api from "../api/axios";
 
 export default function Catagory() {
-  const { catagoryId } = useParams();
+  const { categoryId } = useParams();
+  console.log(categoryId);
   const [category, setCategory] = useState(null);
   const [foods, setFoods] = useState([]);
   const [categoryError, setCategoryError] = useState("");
@@ -20,7 +21,7 @@ export default function Catagory() {
   const fetchCategories = async () => {
     try {
       setLoading(prev => ({ ...prev, category: true }));
-      const res = await api.get(`/category/getCategory/${catagoryId}`);
+      const res = await api.get(`/category/getCategory/${categoryId}`);
       setCategory(res.data);
     } catch (err) {
       setCategoryError("የምድብ መረጃ ማምጣት አልተቻለም");
@@ -29,10 +30,10 @@ export default function Catagory() {
     }
   };
 
-  const fetchAllFood = async (catagoryName) => {
+  const fetchAllFood = async (categoryId) => {
     try {
       setLoading(prev => ({ ...prev, foods: true }));
-      const res = await api.get(`/food/getFood/${catagoryName}`);
+      const res = await api.get(`/food/getFood/${categoryId}`);
       setFoods(res.data);
     } catch (err) {
       setFoodError("ምግብ ማምጣት አልተቻለም");
@@ -42,16 +43,17 @@ export default function Catagory() {
   };
 
   useEffect(() => {
-    if (catagoryId) fetchCategories();
-  }, [catagoryId]);
+    if (categoryId) fetchCategories();
+  }, [categoryId]);
 
   useEffect(() => {
-    if (category?.catagoryName) {
-      fetchAllFood(category.catagoryName);
+    if (category?._id) {
+      fetchAllFood(category._id);
     }
   }, [category]);
 
   // Intersection Observer for animations
+  
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -69,6 +71,8 @@ export default function Catagory() {
     foodRefs.current.forEach((ref) => {
       if (ref) observer.observe(ref);
     });
+
+    console.log(foods);
 
     return () => {
       if (categoryRef.current) observer.unobserve(categoryRef.current);
@@ -100,11 +104,10 @@ export default function Catagory() {
               id={`category-${category._id}`}
               src={category.url}
               alt={category.catagoryName}
-              className={`w-100 h-45 rounded-2xl transition-all duration-1000 ease-in-out ${
-                inViewElements.has(`category-${category._id}`)
-                  ? "animate-spin-once"
-                  : "opacity-0"
-              }`}
+              className={`w-100 h-45 rounded-2xl transition-all duration-1000 ease-in-out ${inViewElements.has(`category-${category._id}`)
+                ? "animate-spin-once"
+                : "opacity-0"
+                }`}
             />
 
             <div className="flex flex-col gap-4 mt-5 items-center my-auto">
@@ -137,11 +140,10 @@ export default function Catagory() {
                   key={food._id}
                   ref={(el) => (foodRefs.current[index] = el)}
                   id={`food-${food._id}`}
-                  className={`border rounded-lg shadow-md sm:mt-15 mt-10 p-4 text-center bg-white transition-all duration-500 ${
-                    inViewElements.has(`food-${food._id}`)
-                      ? "animate-bounce-in"
-                      : "opacity-0 translate-y-10"
-                  } hover:scale-105 hover:shadow-lg`}
+                  className={`border rounded-lg shadow-md sm:mt-15 mt-10 p-4 text-center bg-white transition-all duration-500 ${inViewElements.has(`food-${food._id}`)
+                    ? "animate-bounce-in"
+                    : "opacity-0 translate-y-10"
+                    } hover:scale-105 hover:shadow-lg border-b-4 border-amber-600`}
                 >
                   <img
                     src={food.foodUrl}

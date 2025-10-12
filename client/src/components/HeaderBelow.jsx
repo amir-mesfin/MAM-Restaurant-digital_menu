@@ -16,7 +16,7 @@ export default function HeaderBelow() {
       // Close sidebar when switching to desktop view
       if (window.innerWidth >= 768) {
         setOpen(false);
-      } 
+      }
     };
 
     window.addEventListener('resize', handleResize);
@@ -38,7 +38,7 @@ export default function HeaderBelow() {
 
   const fetchCategories = async () => {
     try {
-      const res = await api.get('/category/showCatagory');
+      const res = await api.get('/category/showCategory');
       setGetCategory(res.data);
     } catch (err) {
       console.log(err);
@@ -53,8 +53,8 @@ export default function HeaderBelow() {
     <div className="relative border-b-2 border-amber-400 shadow-md">
       {/* Mobile Top Bar */}
       <div className="fixed top-6 left-4 md:hidden bg-amber-600 p-4 rounded-2xl shadow-lg z-50 animate-bounce-once"
-       onClick={() => setOpen(!open)}
-        >
+        onClick={() => setOpen(!open)}
+      >
         <button
           className="text-white text-xl focus:outline-none transition-transform hover:scale-110 animate-pulse"
           aria-label="Toggle menu"
@@ -62,32 +62,32 @@ export default function HeaderBelow() {
           {open ? <FaTimes className="animate-spin-in" /> : <FaBars className="animate-pulse" />}
         </button>
       </div>
-        
+
       {/* Desktop Menu */}
       <div className="hidden md:flex gap-6 flex-wrap justify-center items-center bg-gradient-to-r from-amber-600 to-amber-700 p-4 rounded-lg shadow-md border-b-4 border-amber-400">
-        <Link  to='/'>
-            <div
-              className="min-w-[110px] flex flex-col items-center py-2 px-3 rounded-lg cursor-pointer 
+        <Link to='/'>
+          <div
+            className="min-w-[110px] flex flex-col items-center py-2 px-3 rounded-lg cursor-pointer 
                          transition-all duration-300 hover:bg-amber-800 relative group animate-fade-in-up"
-            >
-              {/* Icon with subtle animation */}
-              <div className="bg-amber-100 p-2 rounded-full mb-2 group-hover:bg-white  duration-300 group-hover:scale-110 transform transition-transform">
-               
-                <FaHome className="w-6 h-6 object-contain transition-transform duration-500 group-hover:scale-110 rounded-full" />
+          >
+            {/* Icon with subtle animation */}
+            <div className="bg-amber-100 p-2 rounded-full mb-2 group-hover:bg-white  duration-300 group-hover:scale-110 transform transition-transform">
 
-              </div>
-              
-              <span className="text-white font-medium text-sm transition-colors duration-300 group-hover:text-amber-100 text-center">
-              ዋና ገጽ
-              </span>
+              <FaHome className="w-6 h-6 object-contain transition-transform duration-500 group-hover:scale-110 rounded-full" />
 
-              {/* Animated underline effect */}
-              <span className="absolute bottom-0 left-1/2 w-0 h-1 bg-white rounded-full transition-all 
-                               duration-500 group-hover:w-12 -translate-x-1/2"></span>
             </div>
-          </Link>
+
+            <span className="text-white font-medium text-sm transition-colors duration-300 group-hover:text-amber-100 text-center">
+              ዋና ገጽ
+            </span>
+
+            {/* Animated underline effect */}
+            <span className="absolute bottom-0 left-1/2 w-0 h-1 bg-white rounded-full transition-all 
+                               duration-500 group-hover:w-12 -translate-x-1/2"></span>
+          </div>
+        </Link>
         {getCategory.map((item) => (
-          <Link key={item._id} to={`catagory/${item._id}`}>
+          <Link key={item._id} to={`category/${item._id}`}>
             <div
               className="min-w-[110px] flex flex-col items-center py-2 px-3 rounded-lg cursor-pointer 
                          transition-all duration-300 hover:bg-amber-800 relative group animate-fade-in-up"
@@ -100,7 +100,7 @@ export default function HeaderBelow() {
                   alt={item.catagoryName}
                 />
               </div>
-              
+
               <span className="text-white font-medium text-sm transition-colors duration-300 group-hover:text-amber-100 text-center">
                 {item.catagoryName}
               </span>
@@ -123,9 +123,9 @@ export default function HeaderBelow() {
         {/* Sidebar Header */}
         <div className="flex items-center justify-between p-5 bg-amber-800 border-b-2 border-amber-500 animate-fade-in-down">
           <div className="flex items-center gap-3">
-            <img 
-              src={logo} 
-              alt="Mam Restaurant Logo" 
+            <img
+              src={logo}
+              alt="Mam Restaurant Logo"
               className="h-10 w-10 rounded-full object-cover border-2 border-amber-300 animate-pulse"
             />
             <h2 className="text-xl font-bold animate-bounce">ማም ሬስቶራንት</h2>
@@ -142,9 +142,9 @@ export default function HeaderBelow() {
         {/* Scrollable Menu Items Container */}
         <div className="h-full flex flex-col">
           <div className="p-4 flex-1 overflow-y-auto">
-            <Link 
-              to="/" 
-              onClick={() => setOpen(false)} 
+            <Link
+              to="/"
+              onClick={() => setOpen(false)}
               className="font-medium hover:text-white transition-colors"
             >
               <div className="mb-6 flex items-center gap-2 text-amber-200 p-2 bg-amber-800 rounded-lg border-l-4 border-amber-400 animate-slide-in-right">
@@ -152,18 +152,18 @@ export default function HeaderBelow() {
                 ዋና ገጽ
               </div>
             </Link>
-            
+
             <h3 className="text-amber-200 font-medium mb-3 flex items-center gap-2 p-2 bg-amber-800 rounded-lg border-l-4 border-amber-400 animate-slide-in-right delay-100">
               <FaUtensils className="text-lg animate-spin" />
               የምግብ ምድቦች
             </h3>
-            
+
             <ul className="space-y-2">
               {getCategory.map((item, index) => (
                 <li key={item._id} className="animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
                   <Link
-                    to={`catagory/${item._id}`}
-                    onClick={() => setOpen(false)} 
+                    to={`category/${item._id}`}
+                    onClick={() => setOpen(false)}
                     className="flex items-center gap-4 p-3 rounded-lg transition-all duration-300 
                                hover:bg-amber-800 hover:shadow-inner border-b-2 border-amber-500 hover:border-amber-300
                                transform hover:scale-105 hover:translate-x-2"
@@ -172,7 +172,7 @@ export default function HeaderBelow() {
                       <img
                         src={item.url}
                         alt={item.catagoryName}
-                        className="h-8 w-8 object-contain animate-spin-slow rounded-full" 
+                        className="h-8 w-8 object-contain animate-spin-slow rounded-full"
                       />
                     </div>
                     <span className="font-medium ">{item.catagoryName}</span>
@@ -181,7 +181,7 @@ export default function HeaderBelow() {
               ))}
             </ul>
           </div>
-          
+
           {/* Sidebar Footer */}
           <div className="p-4 text-center text-amber-200 text-sm bg-amber-800 border-t-2 border-amber-700 animate-fade-in-up">
             © {new Date().getFullYear()} ማም ሬስቶራንት

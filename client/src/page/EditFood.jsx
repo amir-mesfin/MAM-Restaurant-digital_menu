@@ -9,7 +9,7 @@ export default function EditFood() {
 
   const fetchCategories = async () => {
     try {
-      const res = await api.get('/category/showCatagory');
+      const res = await api.get('/category/showCategory');
       setGetCategory(res.data);
     } catch (err) {
       console.log(err);
@@ -61,7 +61,7 @@ export default function EditFood() {
         {/* body */}
 
         <div className='p-4  bg-[#ffe6b3] min-h-screen w-full'>
-          {selectedCategory && <FoodList categoryName={selectedCategory.catagoryName} />}
+          {selectedCategory && <FoodList categoryId={selectedCategory._id} />}
         </div>
       </div>
 
