@@ -1,11 +1,13 @@
-import { FaFacebook, FaInstagram, FaTwitter, FaTiktok, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaFacebook, FaInstagram, FaTwitter, FaTiktok, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaUniversity, FaMoneyBillAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { FaArrowUp } from "react-icons/fa6";
 
 export default function Footer() {
+  const navigate = useNavigate(); // initialize useNavigate
+
   return (
-    <footer className="bg-[#A47621] text-white pt-12">
+    <footer className="bg-[#A47621] text-white pt-12 relative">
       <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-4 gap-8 text-center md:text-left">
-        
         {/* Location */}
         <div>
           <h3 className="text-lg font-semibold mb-3">📍 አድራሻ</h3>
@@ -52,8 +54,40 @@ export default function Footer() {
         </div>
       </div>
 
+      {/* Payment Accounts Section */}
+      <div className="max-w-6xl mx-auto px-6 mt-8" id="Payment">
+        <div className="bg-[#8B621C] rounded-lg p-6">
+          <h3 className="text-lg font-semibold mb-4 text-center flex items-center justify-center gap-2">
+            <FaMoneyBillAlt className="text-[#E3A700]" />
+            የክፍያ መለያዎች
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-[#A47621] rounded-lg p-4 text-center hover:bg-[#8B621C] transition-colors duration-300">
+              <FaUniversity className="text-[#E3A700] mx-auto text-xl mb-2" />
+              <h4 className="font-semibold">CBE</h4>
+              <p className="text-sm mt-1">1000420875227</p>
+              <p className="text-xs text-gray-200 mt-1">ማም ሬስቶራንት</p>
+            </div>
+
+            <div className="bg-[#A47621] rounded-lg p-4 text-center hover:bg-[#8B621C] transition-colors duration-300">
+              <FaUniversity className="text-[#E3A700] mx-auto text-xl mb-2" />
+              <h4 className="font-semibold">BOA</h4>
+              <p className="text-sm mt-1">1347673</p>
+              <p className="text-xs text-gray-200 mt-1">ማም ሬስቶራንት</p>
+            </div>
+
+            <div className="bg-[#A47621] rounded-lg p-4 text-center hover:bg-[#8B621C] transition-colors duration-300">
+              <FaMoneyBillAlt className="text-[#E3A700] mx-auto text-xl mb-2" />
+              <h4 className="font-semibold">Telebirr</h4>
+              <p className="text-sm mt-1">0962945525</p>
+              <p className="text-xs text-gray-200 mt-1">አሚር መስፍን</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Bottom Section */}
-      <div className="bg-[#8B621C] mt-10 py-6 px-6 flex flex-col md:flex-row justify-between items-center">
+      <div className="bg-[#8B621C] mt-8 py-6 px-6 flex flex-col md:flex-row justify-between items-center">
         <div className="text-center md:text-left">
           <p className="text-sm font-semibold">የተሰራው በ አሚር መስፍን</p>
           <p className="text-xs mt-1">
@@ -85,12 +119,33 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Edit Link */}
-      <div className="text-center py-4 text-sm border-t border-white/20">
-        <Link to="/sign" className="underline hover:text-[#E3A700] transition-colors duration-300">
+      {/* Edit Navigation Buttons using useNavigate */}
+      <div className="pb-2 pr-4 text-end text-sm border-t border-white/20 flex justify-end gap-5">
+        <button
+          onClick={() => navigate("/")}
+          className="underline hover:text-[#E3A700] transition-colors duration-300"
+        >
+          home
+        </button>
+        <button
+          onClick={() => navigate("/sign")}
+          className="underline hover:text-[#E3A700] transition-colors duration-300"
+        >
           ✏️go edit
-        </Link>
+        </button>
       </div>
+
+      <div className="md:mt-0 fixed bottom-1 left-2">
+        <button className="bg-[#E3A700] text-white px-3 py-2 rounded-lg shadow-lg hover:bg-yellow-600 transition-all duration-300 flex items-center gap-2 font-semibold">
+          CBE 100023455
+        </button>
+      </div>
+      <div className="md:mt-0 fixed bottom-6 right-2">
+        <a 
+         href="#" className="bg-[#E3A700] text-white px-3 py-2 rounded-lg shadow-lg hover:bg-yellow-600 transition-all duration-300 flex items-center gap-2 font-semibold">
+        <FaArrowUp className="text-xl"/>
+        </a>
+        </div>
     </footer>
   );
 }
